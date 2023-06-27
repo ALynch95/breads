@@ -10,21 +10,24 @@ const app = express()
 app.get('/', (req, res) => {
     res.send('Welcome to an Awesome App about Breads')
   })
-// 404 Page
+  
+  // Breads
+const breadsController = require('./controllers/breads_controller')
+app.use('/breads', breadsController)
+  
+  // 404 Page
 app.get('*', function (req, res) {
   res.send('404')
 })
 
-  // MIDDLEWARE
+// MIDDLEWARE
+app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
 
-  // Breads
-  const breadsController = require('./controllers/breads_controller')
-  app.use('/breads', breadsController)
-  
+
 // LISTEN
 app.listen(PORT, () => {
   console.log('listening on port', PORT);
